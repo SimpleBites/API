@@ -27,6 +27,8 @@ SET time_zone = "+00:00";
 -- Tabelstructuur voor tabel `comments`
 --
 
+
+
 DROP TABLE IF EXISTS `comments`;
 CREATE TABLE IF NOT EXISTS `comments` (
   `id` int NOT NULL,

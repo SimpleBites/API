@@ -15,4 +15,6 @@ const pool = mysql.createPool({
     password: "",
     database: "simplebites"
 })
+
+
 module.exports = {pool,connection}
