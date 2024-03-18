@@ -4,7 +4,7 @@
   "description": "recipe website",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js",
+    "dev": "nodemon database/seeders/userseeder.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/SimpleBites/API#readme",
   "dependencies": {
+    "assert": "^2.1.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
@@ -26,6 +27,7 @@
     "express-session": "^1.18.0",
     "jsonwebtoken": "^9.0.2",
     "mysql": "^2.18.1",
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.0",
+    "qs": "^6.12.0"
   }
 }
