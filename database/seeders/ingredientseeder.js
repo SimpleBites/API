@@ -1,7 +1,7 @@
 const {pool, connection} = require("../mysql")
 
 const ingredientseeder = () => {
-    pool.getConnection(function(err, connection){
+
     const ingredients = [
         {
             title: "carrot",
@@ -35,6 +35,6 @@ const ingredientseeder = () => {
 
         console.log("ingredient table seeded")
     })
-    })
-}
+    }
+
 module.exports = {ingredientseeder}

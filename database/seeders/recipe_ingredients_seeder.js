@@ -3,9 +3,7 @@ const bcrypt = require("bcrypt")
 
 
 const recipeIngredientSeeder = () => {
-    pool.getConnection(function(err, connection){
-
-    
+   
     const recipe_ingredients = [
         {
             recipe_id: 1,
@@ -47,8 +45,8 @@ const recipeIngredientSeeder = () => {
         })
         console.log("recipe ingredients table seeded")
     })
-    })
 }
+
   
 
    

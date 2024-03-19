@@ -14,8 +14,7 @@ const bcrypt = require("bcrypt")
 deleteUsers()*/
 
 const userseeder = () => {
-    pool.getConnection(function(err, connection){
-
+    
     const saltRounds = 10;
     const hashedPassword = bcrypt.hashSync("welkom123", saltRounds);
     
@@ -65,9 +64,9 @@ const userseeder = () => {
 
         console.log("user table seeded")
     })
-    })
 }
-  
+
+ 
 
    
 module.exports = { userseeder}

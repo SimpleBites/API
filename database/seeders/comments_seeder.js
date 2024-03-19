@@ -3,9 +3,7 @@ const bcrypt = require("bcrypt")
 
 
 const commentseeder = () => {
-    pool.getConnection(function(err, connection){
-
-    
+   
     const comments = [
         {
             recipe_id: 1,
@@ -53,8 +51,8 @@ const commentseeder = () => {
         })
         console.log("comment table seeded")
     })
-    })
-}
+    }
+
   
 
    

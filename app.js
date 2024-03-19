@@ -2,6 +2,7 @@ const express = require("express")
 const {pool, connection} = require("./database/mysql")
 const qs = require("qs")
 const assert = require("assert")
+var pagination = require('pagination');
 
 const app = new express()
 
@@ -14,16 +15,237 @@ app.use(express.json())
 const searchExample = ["searchexample1 => /api/users/uservalue(check if value is in any column row and get result)", "searchexample2 => /api/users/username=admin"]
 
 app.get("/home", ((req,res) => {
-    res.send("<a href='/api/users'>user API</a>")
+    res.write("<a href='/api/users'>user API</a><br>")
+    res.write("<a href='/api/recipes'>recipe API</a><br>")
+    res.write("<a href='/api/ingredients'>ingredients API</a><br>")
+    res.write("<a href='/api/recipeviewcount'>recipe view count API</a><br>")
+    res.write("<a href='/api/recipe-ingredients'>recipe ingredients API</a><br>")
+    res.write("<a href='/api/comments'>comments API</a>")
+    res.end()
 }))
 
 app.get("/api/users", ((req,res) => {
-    connection.query("Select * from users", ((err,results) => {
-        if(err){
-            console.log(err)
+    const page = parseInt(req.query.page, 10) || 1;
+    const pageSize = parseInt(req.query.pageSize, 10) || 10;
+  
+    const offset = (page - 1) * pageSize;
+  
+    connection.query("SELECT COUNT(*) AS count FROM users", (err, data) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send('Error fetching total count');
+      }
+  
+      const totalCount = data[0].count;
+  
+      connection.query("SELECT * FROM users LIMIT ? OFFSET ?", [pageSize, offset], (err, results) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).send('Error fetching users');
         }
-        res.send([searchExample, results])
-    }))
+  
+        res.send({
+          page,
+          pageSize,
+          totalCount,
+          totalPages: Math.ceil(totalCount / pageSize),
+          data: results
+        });
+        res.end();
+      });
+    });
+}))
+
+app.get("/api/recipes", ((req,res) => {
+    const page = parseInt(req.query.page, 10) || 1;
+    const pageSize = parseInt(req.query.pageSize, 10) || 10;
+  
+    const offset = (page - 1) * pageSize;
+  
+    connection.query("SELECT COUNT(*) AS count FROM recipes", (err, data) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send('Error fetching total count');
+      }
+  
+      const totalCount = data[0].count;
+  
+      connection.query("SELECT * FROM recipes LIMIT ? OFFSET ?", [pageSize, offset], (err, results) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).send('Error fetching users');
+        }
+  
+        res.send({
+          page,
+          pageSize,
+          totalCount,
+          totalPages: Math.ceil(totalCount / pageSize),
+          data: results
+        });
+        res.end();
+      });
+    });
+}))
+
+app.get("/api/ingredients", ((req,res) => {
+    const page = parseInt(req.query.page, 10) || 1;
+    const pageSize = parseInt(req.query.pageSize, 10) || 10;
+  
+    const offset = (page - 1) * pageSize;
+  
+    connection.query("SELECT COUNT(*) AS count FROM ingredients", (err, data) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send('Error fetching total count');
+      }
+  
+      const totalCount = data[0].count;
+  
+      connection.query("SELECT * FROM ingredients LIMIT ? OFFSET ?", [pageSize, offset], (err, results) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).send('Error fetching users');
+        }
+  
+        res.send({
+          page,
+          pageSize,
+          totalCount,
+          totalPages: Math.ceil(totalCount / pageSize),
+          data: results
+        });
+        res.end();
+      });
+    });
+}))
+
+app.get("/api/recipeviewcount", ((req,res) => {
+    const page = parseInt(req.query.page, 10) || 1;
+    const pageSize = parseInt(req.query.pageSize, 10) || 10;
+  
+    const offset = (page - 1) * pageSize;
+  
+    connection.query("SELECT COUNT(*) AS count FROM recipe_view_count", (err, data) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send('Error fetching total count');
+      }
+  
+      const totalCount = data[0].count;
+  
+      connection.query("SELECT * FROM recipe_view_count LIMIT ? OFFSET ?", [pageSize, offset], (err, results) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).send('Error fetching users');
+        }
+  
+        res.send({
+          page,
+          pageSize,
+          totalCount,
+          totalPages: Math.ceil(totalCount / pageSize),
+          data: results
+        });
+        res.end();
+      });
+    });
+}))
+
+app.get("/api/recipe-ingredients", ((req,res) => {
+    const page = parseInt(req.query.page, 10) || 1;
+    const pageSize = parseInt(req.query.pageSize, 10) || 10;
+  
+    const offset = (page - 1) * pageSize;
+  
+    connection.query("SELECT COUNT(*) AS count FROM recipe_ingredients", (err, data) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send('Error fetching total count');
+      }
+  
+      const totalCount = data[0].count;
+  
+      connection.query("SELECT * FROM recipe_ingredients LIMIT ? OFFSET ?", [pageSize, offset], (err, results) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).send('Error fetching users');
+        }
+  
+        res.send({
+          page,
+          pageSize,
+          totalCount,
+          totalPages: Math.ceil(totalCount / pageSize),
+          data: results
+        });
+        res.end();
+      });
+    });
+}))
+
+app.get("/api/recipecategories", ((req,res) => {
+    const page = parseInt(req.query.page, 10) || 1;
+    const pageSize = parseInt(req.query.pageSize, 10) || 10;
+  
+    const offset = (page - 1) * pageSize;
+  
+    connection.query("SELECT COUNT(*) AS count FROM recipe_categories", (err, data) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send('Error fetching total count');
+      }
+  
+      const totalCount = data[0].count;
+  
+      connection.query("SELECT * FROM recipe_categories LIMIT ? OFFSET ?", [pageSize, offset], (err, results) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).send('Error fetching users');
+        }
+  
+        res.send({
+          page,
+          pageSize,
+          totalCount,
+          totalPages: Math.ceil(totalCount / pageSize),
+          data: results
+        });
+        res.end();
+      });
+    });
+}))
+
+app.get("/api/comments", ((req,res) => {
+    const page = parseInt(req.query.page, 10) || 1;
+    const pageSize = parseInt(req.query.pageSize, 10) || 10;
+  
+    const offset = (page - 1) * pageSize;
+  
+    connection.query("SELECT COUNT(*) AS count FROM comments", (err, data) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send('Error fetching total count');
+      }
+  
+      const totalCount = data[0].count;
+  
+      connection.query("SELECT * FROM comments LIMIT ? OFFSET ?", [pageSize, offset], (err, results) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).send('Error fetching users');
+        }
+  
+        res.send({
+          page,
+          pageSize,
+          totalCount,
+          totalPages: Math.ceil(totalCount / pageSize),
+          data: results
+        });
+        res.end();
+      });
+    });
 }))
 
 app.get("/api/users/:uservalue", ((req,res) => {

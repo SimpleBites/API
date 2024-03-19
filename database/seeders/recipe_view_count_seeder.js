@@ -3,8 +3,6 @@ const bcrypt = require("bcrypt")
 
 
 const recipeViewCountSeeder = () => {
-    pool.getConnection(function(err, connection){
-
     
     const recipeViewCounts = [
         {
@@ -40,16 +38,18 @@ const recipeViewCountSeeder = () => {
             (err, results) => {
               if(err) {
                 connection.rollback(() => {
-                  //connection.release();
+                  connection.release();
                   console.error('Error inserting user', err);
                 });
                 return;
             }
         })
+
         console.log("recipe view count table seeded")
     })
-    })
+
 }
+
   
 
    

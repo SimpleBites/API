@@ -1,7 +1,7 @@
 const {pool, connection} = require("../mysql")
 
 const categoryseeder = () => {
-    pool.getConnection(function(err, connection){
+    
     const categories = [
         {
             title: "dessert",
@@ -36,6 +36,6 @@ const categoryseeder = () => {
 
         console.log("category table seeded")
     })
-    })
 }
+
 module.exports = {categoryseeder}
