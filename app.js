@@ -2,9 +2,18 @@ const express = require("express")
 const {pool, connection} = require("./database/mysql")
 const qs = require("qs")
 const assert = require("assert")
-var pagination = require('pagination');
+const cors = require("cors")
+
+const corsOptions = {
+  origin: 'http://localhost:3000', // Allow only this origin to access the resources
+  optionsSuccessStatus: 200, // Some legacy browsers (IE11, various SmartTVs) choke on 204
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  allowedHeaders: "Content-Type,Authorization"
+};
 
 const app = new express()
+
+app.use(cors())
 
 const qsOptions = {
     depth:4,
@@ -12,7 +21,7 @@ const qsOptions = {
 }
 
 app.use(express.json())
-const searchExample = ["searchexample1 => /api/users/uservalue(check if value is in any column row and get result)", "searchexample2 => /api/users/username=admin"]
+const meta = ["Navigation => /api/users?page=3","searchexample1 => /api/users/userID(check if ID exists in database)", "searchexample2 => /api/users?username=admin"]
 
 app.get("/home", ((req,res) => {
     res.write("<a href='/api/users'>user API</a><br>")
@@ -21,15 +30,28 @@ app.get("/home", ((req,res) => {
     res.write("<a href='/api/recipeviewcount'>recipe view count API</a><br>")
     res.write("<a href='/api/recipe-ingredients'>recipe ingredients API</a><br>")
     res.write("<a href='/api/comments'>comments API</a>")
+    
     res.end()
 }))
 
 app.get("/api/users", ((req,res) => {
     const page = parseInt(req.query.page, 10) || 1;
-    const pageSize = parseInt(req.query.pageSize, 10) || 10;
+    const pageSize = parseInt(req.query.pageSize, 15) || 15;
   
     const offset = (page - 1) * pageSize;
   
+    
+    
+        const {limit} = req.query
+        var obj = qs.parse(req.query, qsOptions)
+       
+    
+        var str = qs.stringify(obj)
+        
+
+        let urlquery = str.split("=")
+        let sqlquery = "SELECT * from users WHERE username = ? OR WHERE email = ?"
+
     connection.query("SELECT COUNT(*) AS count FROM users", (err, data) => {
       if (err) {
         console.log(err);
@@ -43,8 +65,15 @@ app.get("/api/users", ((req,res) => {
           console.log(err);
           return res.status(500).send('Error fetching users');
         }
+
+        
+        const newResults = results
+        const coolresults = newResults.map(result => {
+          
+        })
   
         res.send({
+          meta,
           page,
           pageSize,
           totalCount,
@@ -54,11 +83,24 @@ app.get("/api/users", ((req,res) => {
         res.end();
       });
     });
+}
+))
+
+app.get("/api/users/:userID", ((req,res) => {
+    console.log(req.params.userID)
+    const userid = req.params.userID
+    connection.query("Select * from users where id = ?",userid, ((err,results) => {
+        if(err){
+            console.log(err)
+        }
+
+        res.send([meta, results])
+    }))
 }))
 
 app.get("/api/recipes", ((req,res) => {
     const page = parseInt(req.query.page, 10) || 1;
-    const pageSize = parseInt(req.query.pageSize, 10) || 10;
+    const pageSize = parseInt(req.query.pageSize, 15) || 15;
   
     const offset = (page - 1) * pageSize;
   
@@ -77,6 +119,7 @@ app.get("/api/recipes", ((req,res) => {
         }
   
         res.send({
+          meta,
           page,
           pageSize,
           totalCount,
@@ -88,9 +131,21 @@ app.get("/api/recipes", ((req,res) => {
     });
 }))
 
+app.get("/api/recipes/:recipeID", ((req,res) => {
+    console.log(req.params.recipeID)
+    const recipeid = req.params.recipeID
+    connection.query("Select * from recipes where id = ?",recipeid, ((err,results) => {
+        if(err){
+            console.log(err)
+        }
+
+        res.send([meta, results])
+    }))
+}))
+
 app.get("/api/ingredients", ((req,res) => {
     const page = parseInt(req.query.page, 10) || 1;
-    const pageSize = parseInt(req.query.pageSize, 10) || 10;
+    const pageSize = parseInt(req.query.pageSize, 15) || 15;
   
     const offset = (page - 1) * pageSize;
   
@@ -109,6 +164,7 @@ app.get("/api/ingredients", ((req,res) => {
         }
   
         res.send({
+        meta,
           page,
           pageSize,
           totalCount,
@@ -120,9 +176,11 @@ app.get("/api/ingredients", ((req,res) => {
     });
 }))
 
+
+
 app.get("/api/recipeviewcount", ((req,res) => {
     const page = parseInt(req.query.page, 10) || 1;
-    const pageSize = parseInt(req.query.pageSize, 10) || 10;
+    const pageSize = parseInt(req.query.pageSize, 15) || 15;
   
     const offset = (page - 1) * pageSize;
   
@@ -154,7 +212,7 @@ app.get("/api/recipeviewcount", ((req,res) => {
 
 app.get("/api/recipe-ingredients", ((req,res) => {
     const page = parseInt(req.query.page, 10) || 1;
-    const pageSize = parseInt(req.query.pageSize, 10) || 10;
+    const pageSize = parseInt(req.query.pageSize, 15) || 15;
   
     const offset = (page - 1) * pageSize;
   
@@ -186,8 +244,7 @@ app.get("/api/recipe-ingredients", ((req,res) => {
 
 app.get("/api/recipecategories", ((req,res) => {
     const page = parseInt(req.query.page, 10) || 1;
-    const pageSize = parseInt(req.query.pageSize, 10) || 10;
-  
+    const pageSize = parseInt(req.query.pageSize, 15) || 15;
     const offset = (page - 1) * pageSize;
   
     connection.query("SELECT COUNT(*) AS count FROM recipe_categories", (err, data) => {
@@ -218,7 +275,7 @@ app.get("/api/recipecategories", ((req,res) => {
 
 app.get("/api/comments", ((req,res) => {
     const page = parseInt(req.query.page, 10) || 1;
-    const pageSize = parseInt(req.query.pageSize, 10) || 10;
+    const pageSize = parseInt(req.query.pageSize, 15) || 15;
   
     const offset = (page - 1) * pageSize;
   
@@ -257,46 +314,6 @@ app.get("/api/users/:uservalue", ((req,res) => {
     var str = qs.stringify(obj)
     assert.equal(str, "a=c")
     console.log(str)
-
-
-    /*if(searchTerm.match("=")){
-        console.log("works")
-        let variable = searchTerm.split("=")
-        let sqlquery = "SELECT * FROM users WHERE " + variable[0] + " LIKE " + "'%" + variable[1] + "%'"
-    
-        connection.query(sqlquery, ((err,results) => {
-            if(err){
-                console.log(err)
-                connection.end()
-            }
-
-            if(results.length == 0){
-                let error = ["Could not find that value in table"]
-                res.send([searchExample, error])
-                
-            } else{
-                res.send([searchExample, results])
-            }
-        }))
-    } 
-    
-    else{
-        let sqlquery = "SELECT * FROM users WHERE id LIKE" + " '%" + searchTerm + "%'" + " or username LIKE" + " '%" + searchTerm + "%' " + " OR user_image LIKE" + " '%" + searchTerm + "%'" + " OR email LIKE" + " '%" + searchTerm + "%'";
-    
-        connection.query(sqlquery, ((err,results) => {
-            if(err){
-                console.log(err)
-            }
-    
-            if(results.length == 0){
-                let error = ["Could not find that value in table"]
-                res.send([searchExample, error])
-            } 
-            else{
-                res.send([searchExample, results])
-            }
-        }))
-    }*/
 }))
 
 app.use("*", ((req,res) => {
