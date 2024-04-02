@@ -38,7 +38,7 @@ const recipeViewCountSeeder = () => {
             (err, results) => {
               if(err) {
                 connection.rollback(() => {
-                  connection.release();
+                  connection.end();
                   console.error('Error inserting user', err);
                 });
                 return;

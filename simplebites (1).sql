@@ -31,7 +31,7 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `comments`;
 CREATE TABLE IF NOT EXISTS `comments` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `recipe_id` int DEFAULT NULL,
   `user_id` int DEFAULT NULL,
   `comment` varchar(45) DEFAULT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
 
 DROP TABLE IF EXISTS `ingredients`;
 CREATE TABLE IF NOT EXISTS `ingredients` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(45) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `ingredients` (
 
 DROP TABLE IF EXISTS `recipes`;
 CREATE TABLE IF NOT EXISTS `recipes` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(45) DEFAULT NULL,
   `description` varchar(45) DEFAULT NULL,
   `image` varchar(45) DEFAULT NULL,
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `recipes` (
 
 DROP TABLE IF EXISTS `recipe_categories`;
 CREATE TABLE IF NOT EXISTS `recipe_categories` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(45) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `recipe_categories` (
 
 DROP TABLE IF EXISTS `recipe_ingredients`;
 CREATE TABLE IF NOT EXISTS `recipe_ingredients` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `recipe_id` int DEFAULT NULL,
   `ingredient_id` int DEFAULT NULL,
   `quantity` varchar(2000) DEFAULT NULL,
@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `recipe_ingredients` (
 
 DROP TABLE IF EXISTS `recipe_view_count`;
 CREATE TABLE IF NOT EXISTS `recipe_view_count` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `view_count_total` int DEFAULT NULL,
   `view_count_day` int DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `recipe_view_count` (
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `username` varchar(45) DEFAULT NULL,
   `user_image` varchar(45) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,

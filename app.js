@@ -2,6 +2,8 @@ const express = require("express")
 const {pool, connection} = require("./database/mysql")
 const qs = require("qs")
 const assert = require("assert")
+
+const app = new express()
 const cors = require("cors")
 
 const corsOptions = {
@@ -11,16 +13,14 @@ const corsOptions = {
   allowedHeaders: "Content-Type,Authorization"
 };
 
-const app = new express()
-
-app.use(cors())
-
 const qsOptions = {
     depth:4,
     parameterlimit: 10
 }
 
 app.use(express.json())
+app.use(cors(corsOptions))
+
 const meta = ["Navigation => /api/users?page=3","searchexample1 => /api/users/userID(check if ID exists in database)", "searchexample2 => /api/users?username=admin"]
 
 app.get("/home", ((req,res) => {

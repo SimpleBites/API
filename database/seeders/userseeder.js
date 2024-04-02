@@ -1,7 +1,7 @@
 const {pool, connection} = require("../mysql")
 const bcrypt = require("bcrypt")
 
-/*const deleteUsers = () => {
+/*function deleteUsers(){
     connection.query("TRUNCATE TABLE users", (err, results) => {
         if(err){
             console.log(err)
@@ -55,7 +55,7 @@ const userseeder = () => {
             (err, results) => {
               if(err) {
                 connection.rollback(() => {
-                  connection.release();
+                 
                   console.error('Error inserting user', err);
                 });
                 return;
@@ -66,7 +66,5 @@ const userseeder = () => {
     })
 }
 
- 
 
-   
 module.exports = { userseeder}

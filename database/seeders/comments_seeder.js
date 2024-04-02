@@ -43,7 +43,7 @@ const commentseeder = () => {
             (err, results) => {
               if(err) {
                 connection.rollback(() => {
-                  connection.release();
+                  
                   console.error('Error inserting user', err);
                 });
                 return;

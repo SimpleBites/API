@@ -26,7 +26,7 @@ const categoryseeder = () => {
             (err, results) => {
               if(err) {
                 connection.rollback(() => {
-                  connection.release();
+                 
                   console.error('Error inserting categories', err);
                 });
                 return;
