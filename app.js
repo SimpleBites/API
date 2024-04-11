@@ -2,12 +2,13 @@ const express = require("express")
 const {pool, connection} = require("./database/mysql")
 const qs = require("qs")
 const assert = require("assert")
-
+const {authCheck} = require("./middleware/authcheck")
 const app = new express()
 const cors = require("cors")
 
 const corsOptions = {
-  origin: 'http://localhost:3000', // Allow only this origin to access the resources
+  origin: ["http://localhost:3000", "http://localhost:4000"],
+  credentials: true, // Allow only this origin to access the resources
   optionsSuccessStatus: 200, // Some legacy browsers (IE11, various SmartTVs) choke on 204
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   allowedHeaders: "Content-Type,Authorization"
@@ -34,7 +35,7 @@ app.get("/home", ((req,res) => {
     res.end()
 }))
 
-app.get("/api/users", ((req,res) => {
+app.get("/api/users", authCheck, ((req,res) => {
     const page = parseInt(req.query.page, 10) || 1;
     const pageSize = parseInt(req.query.pageSize, 15) || 15;
   
