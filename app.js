@@ -24,6 +24,25 @@ app.use(cors(corsOptions))
 
 const meta = ["Navigation => /api/users?page=3","searchexample1 => /api/users/userID(check if ID exists in database)", "searchexample2 => /api/users?username=admin"]
 
+app.get("/session", ((req,res) => {
+  
+    try {
+      const response = fetch('http://localhost:4000/session', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      })
+
+      const data = response.json()
+      console.log(data)
+      
+    }catch(error){
+       console.log(error)
+    }
+  
+}))
 app.get("/home", ((req,res) => {
     res.write("<a href='/api/users'>user API</a><br>")
     res.write("<a href='/api/recipes'>recipe API</a><br>")

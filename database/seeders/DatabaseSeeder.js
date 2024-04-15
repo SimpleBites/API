@@ -14,3 +14,5 @@ commentseeder();
 ingredientseeder();
 recipeIngredientSeeder();
 recipeViewCountSeeder()
+
+process.exit()

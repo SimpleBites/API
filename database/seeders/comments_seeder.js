@@ -6,13 +6,13 @@ const commentseeder = () => {
    
     const comments = [
         {
-            recipe_id: 1,
+            recipe_id: 3,
             user_id: 1,
             comment: "this was delicious",
             stars: 5
         },
         {
-            recipe_id: 2,
+            recipe_id: 4,
             user_id: 1,
             comment: "delicious garbage",
             stars: 1
@@ -30,7 +30,7 @@ const commentseeder = () => {
             stars: 4
         },
         {
-            recipe_id: 5,
+            recipe_id: 4,
             user_id: 3,
             comment: "alright",
             stars: 3
