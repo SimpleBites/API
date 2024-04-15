@@ -8,27 +8,27 @@ const recipeViewCountSeeder = () => {
         {
             view_count_total: 200,
             view_count_day: 50,
-            recipe_id: 1,
+            recipe_id: 2,
         },
         {
             view_count_total: 200,
             view_count_day: 50,
-            recipe_id: 1,
+            recipe_id: 2,
         },
         {
             view_count_total: 200,
             view_count_day: 50,
-            recipe_id: 1,
+            recipe_id: 2,
         },
         {
             view_count_total: 200,
             view_count_day: 50,
-            recipe_id: 1,
+            recipe_id: 2,
         },
         {
             view_count_total: 200,
             view_count_day: 50,
-            recipe_id: 1,
+            recipe_id: 2,
         },
     ]
   

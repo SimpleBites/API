@@ -6,7 +6,7 @@ const recipeIngredientSeeder = () => {
    
     const recipe_ingredients = [
         {
-            recipe_id: 1,
+            recipe_id: 2,
             ingredient_id: 1,
             quantity: 5
         },

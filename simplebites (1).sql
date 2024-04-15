@@ -74,6 +74,7 @@ CREATE TABLE IF NOT EXISTS `recipes` (
   `difficulty` varchar(45) DEFAULT NULL,
   `preparation_time` varchar(45) DEFAULT NULL,
   `cooking_time` varchar(45) DEFAULT NULL,
+  `instructions` varchar(1000) Default NULL,
   `servings` varchar(45) DEFAULT NULL,
   `user_id` int DEFAULT NULL,
   `category_id` int DEFAULT NULL,
@@ -134,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `recipe_view_count` (
   `recipe_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `recipe_id` (`recipe_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
+) ENGINE=Innodb DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -180,6 +181,9 @@ ALTER TABLE `comments`
 ALTER TABLE `recipes`
   ADD CONSTRAINT `recipes_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `recipes_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `recipe_categories` (`id`);
+
+ALTER TABLE `recipe_view_count`
+  ADD CONSTRAINT `recipe_view_count_ibfk_1` FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`);
 
 --
 -- Beperkingen voor tabel `recipe_ingredients`

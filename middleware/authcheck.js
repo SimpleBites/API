@@ -1,7 +1,8 @@
 const session = require("express-session")
 
-const authCheck = (async (req,res,next) => {
-    const response = await fetch('http://localhost:4000/session', {
+const authCheck = (req,res,next) => {
+
+    const response = fetch('http://localhost:4000/session', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -10,14 +11,9 @@ const authCheck = (async (req,res,next) => {
         credentials: "include"
       });
 
-      const data = await response.json()
+      const data = response.json()
       console.log(data)
-      if(data.username){
-        next()
-      }
-      else{
-        res.status(401).send("<h1>Unauthorized</h1>")
-      }
-})
+
+    }
 
 module.exports = {authCheck}
