@@ -1,57 +1,69 @@
 const {pool, connection} = require("../mysql")
-const bcrypt = require("bcrypt")
-
-/*function deleteUsers(){
-    connection.query("TRUNCATE TABLE users", (err, results) => {
-        if(err){
-            console.log(err)
-        }
-
-        console.log(results)
-    })
-}
-
-deleteUsers()*/
+const crypto = require("crypto")
+const moment = require("moment")
 
 const userseeder = () => {
-    
-    const saltRounds = 10;
-    const hashedPassword = bcrypt.hashSync("welkom123", saltRounds);
-    
-    const users = [
+        let formattedDate = moment().format('YYYY-MM-DD HH:mm:ss');
+        const password = "welkom"
+        const salt = crypto.randomBytes(16).toString("hex")
+        const iterations = 10000; 
+        const keyLength = 64;  
+        const digest = 'sha512';  
+        const hash = crypto.pbkdf2Sync(password, salt, iterations, keyLength, digest).toString('hex');
+        const users = [
         {
             username: "admin",
-            user_image: "preset.png",
+            user_image: "uploads/preset.png",
             email: "admin@gmail.com",
-            password: hashedPassword
+            password: hash,
+            salt: salt,
+            role: "user",
+            created_at: formattedDate,
+            updated_at: formattedDate,
         },
         {  
             username: "users",
-            user_image: "preset.png",
+            user_image: "uploads/preset.png",
             email: "user@gmail.com",
-            password: hashedPassword
+            password: hash,
+            salt: salt,
+            role: "user",
+            created_at: formattedDate,
+            updated_at: formattedDate,
         },
         {
             username: "jur",
             user_image: "preset.png",
             email: "jur@gmail.com",
-            password: hashedPassword
+            password: hash,
+            salt: salt,
+            role: "user",
+            created_at: formattedDate,
+            updated_at: formattedDate,
         }, {  
             username: "thomas",
             user_image: "preset.png",
             email: "thomas@gmail.com",
-            password: hashedPassword
+            password: hash,
+            salt: salt,
+            role: "user",
+            created_at: formattedDate,
+            updated_at: formattedDate,
         }, {  
             username: "cerchio",
             user_image: "preset.png",
             email: "cerchio@gmail.com",
-            password: hashedPassword
+            password: hash,
+            salt: salt,
+            role: "user",
+            created_at: formattedDate,
+            updated_at: formattedDate,
         },
     ]
   
         users.forEach(user => {
-          connection.query('INSERT INTO users (username, user_image, email, password) VALUES (?, ?, ?, ?)', 
-            [user.username, user.user_image, user.email, user.password], 
+          connection.query('INSERT INTO users (username, user_image, email, password, salt, role) VALUES (?, ?, ?, ?, ?, ?)', 
+            [user.username, user.user_image, user.email, user.hash, user.salt, user.role], 
             (err, results) => {
               if(err) {
                 connection.rollback(() => {

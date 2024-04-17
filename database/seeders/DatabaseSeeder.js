@@ -15,4 +15,4 @@ ingredientseeder();
 recipeIngredientSeeder();
 recipeViewCountSeeder()
 
-process.exit()
+//process.exit()

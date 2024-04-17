@@ -1,34 +1,44 @@
 const {pool, connection} = require("../mysql")
-const bcrypt = require("bcrypt")
+const moment = require("moment")
 
 
 const recipeIngredientSeeder = () => {
-   
+    let formattedDate = moment().format('YYYY-MM-DD HH:mm:ss');
     const recipe_ingredients = [
         {
             recipe_id: 2,
             ingredient_id: 1,
-            quantity: 5
+            quantity: 5,
+            created_at: formattedDate,
+            updated_at: formattedDate,
         },
         {
             recipe_id: 2,
             ingredient_id: 1,
-            quantity: 1
+            quantity: 1,
+            created_at: formattedDate,
+            updated_at: formattedDate,
         },
         {
             recipe_id: 3,
             ingredient_id: 1,
-            quantity: 2.5
+            quantity: 2.5,
+            created_at: formattedDate,
+            updated_at: formattedDate,
         },
         {
             recipe_id: 4,
             ingredient_id: 2,
-            quantity: 4
+            quantity: 4,
+            created_at: formattedDate,
+            updated_at: formattedDate,
         },
         {
-            recipe_id: 5,
+            recipe_id: 2,
             ingredient_id: 3,
-            quantity: 3
+            quantity: 3,
+            created_at: formattedDate,
+            updated_at: formattedDate,
         },
     ]
   

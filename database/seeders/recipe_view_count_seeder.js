@@ -1,34 +1,43 @@
 const {pool, connection} = require("../mysql")
-const bcrypt = require("bcrypt")
-
+const moment = require("moment")
 
 const recipeViewCountSeeder = () => {
-    
+    let formattedDate = moment().format('YYYY-MM-DD HH:mm:ss');
     const recipeViewCounts = [
         {
             view_count_total: 200,
             view_count_day: 50,
             recipe_id: 2,
+            created_at: formattedDate,
+            updated_at: formattedDate,
         },
         {
             view_count_total: 200,
             view_count_day: 50,
             recipe_id: 2,
+            created_at: formattedDate,
+            updated_at: formattedDate,
         },
         {
             view_count_total: 200,
             view_count_day: 50,
             recipe_id: 2,
+            created_at: formattedDate,
+            updated_at: formattedDate,
         },
         {
             view_count_total: 200,
             view_count_day: 50,
             recipe_id: 2,
+            created_at: formattedDate,
+            updated_at: formattedDate,
         },
         {
             view_count_total: 200,
             view_count_day: 50,
             recipe_id: 2,
+            created_at: formattedDate,
+            updated_at: formattedDate,
         },
     ]
   
@@ -38,7 +47,6 @@ const recipeViewCountSeeder = () => {
             (err, results) => {
               if(err) {
                 connection.rollback(() => {
-                  connection.end();
                   console.error('Error inserting user', err);
                 });
                 return;

@@ -1,61 +1,74 @@
 const {pool,connection} = require("../mysql")
 
 const recipeseeder = () => {
-   
+    const moment = require("moment")
+    let formattedDate = moment().format('YYYY-MM-DD HH:mm:ss');
     const recipes = [
         {
             title: "pancakes",
             description: "delicious pancakes",
-            image: "pancakes.jpg",
+            image: "uploads/pancakes.jpg",
             average_score: "4.30",
             difficulty: "easy",
             preparation_time: "5 minutes",
             cooking_time: "30 minutes",
+            instructions: "step 1 step 2 step 3",
             servings: 12,
             user_id: 2,
             category_id: 2,
+            created_at: formattedDate,
+            updated_at: formattedDate
         },
         {
             title: "HAMBURGER",
             description: "hamm hamm hamm gur gur gur",
-            image: "burger.png",
+            image: "uploads/burger.png",
             average_score: "4.46",
             difficulty: "intermediate",
             preparation_time: "10 minutes",
             cooking_time: "40 minutes",
+            instructions: "step 1 step 2 step 3",
             servings: 4,
             user_id: 2,
             category_id: 2,
+            created_at: formattedDate,
+            updated_at: formattedDate
         },
         {
             title: "hotdogg",
             description: "buddy you got that hot dog?",
-            image: "dog.jpg",
+            image: "uploads/hotdog.jpg",
             average_score: "4.10",
             difficulty: "easy",
             preparation_time: "5 minutes",
             cooking_time: "30 minutes",
+            instructions: "step 1 step 2 step 3",
             servings: 6,
             user_id: 2,
             category_id: 2,
+            created_at: formattedDate,
+            updated_at: formattedDate
         },
         {
             title: "spaghetti",
             description: "delicious spaghetti",
-            image: "spaghetti.jpg",
+            image: "uploads/spaghetti.jpg",
             average_score: "4.30",
             difficulty: "easy",
             preparation_time: "5 minutes",
             cooking_time: "30 minutes",
+            instructions: "step 1 step 2 step 3",
             servings: 4,
             user_id: 2,
             category_id: 2,
+            created_at: formattedDate,
+            updated_at: formattedDate
         },
     ]
   
         recipes.forEach(recipe => {
-          connection.query('INSERT INTO recipes (title, image, average_score , difficulty, preparation_time, cooking_time,  servings,  user_id, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', 
-            [recipe.title, recipe.description, recipe.recipe_image, recipe.average_score, recipe.difficulty, recipe.preparation_time, recipe.cooking_time, recipe.servings, recipe.user_id, recipe.category_id], 
+          connection.query('INSERT INTO recipes (title, description, image, average_score, difficulty, preparation_time, cooking_time, instructions, servings,  user_id, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+            [recipe.title, recipe.description, recipe.image, recipe.average_score, recipe.difficulty, recipe.preparation_time, recipe.cooking_time, recipe.instructions, recipe.servings, recipe.user_id, recipe.category_id], 
             (err, results) => {
               if(err) {
                 connection.rollback(() => {
