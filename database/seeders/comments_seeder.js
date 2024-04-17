@@ -1,39 +1,49 @@
 const {pool, connection} = require("../mysql")
-const bcrypt = require("bcrypt")
+const moment = require("moment")
 
 
 const commentseeder = () => {
-   
+    let formattedDate = moment().format('YYYY-MM-DD HH:mm:ss');
     const comments = [
         {
             recipe_id: 3,
             user_id: 1,
             comment: "this was delicious",
-            stars: 5
+            stars: 5,
+            created_at: formattedDate,
+            updated_at: formattedDate,
         },
         {
-            recipe_id: 4,
+            recipe_id: 2,
             user_id: 1,
             comment: "delicious garbage",
-            stars: 1
+            stars: 1,
+            created_at: formattedDate,
+            updated_at: formattedDate,
         },
         {
-            recipe_id: 3,
+            recipe_id: 2,
             user_id: 1,
             comment: "meh",
-            stars: 2.5
+            stars: 2.5,
+            created_at: formattedDate,
+            updated_at: formattedDate,
         },
         {
-            recipe_id: 4,
+            recipe_id: 2,
             user_id: 2,
             comment: "very good",
-            stars: 4
+            stars: 4,
+            created_at: formattedDate,
+            updated_at: formattedDate,
         },
         {
-            recipe_id: 4,
+            recipe_id: 2,
             user_id: 3,
             comment: "alright",
-            stars: 3
+            stars: 3,
+            created_at: formattedDate,
+            updated_at: formattedDate,
         },
     ]
   
