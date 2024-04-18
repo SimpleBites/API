@@ -5,7 +5,7 @@ const assert = require("assert")
 const {authCheck} = require("./middleware/authcheck")
 const app = new express()
 const cors = require("cors")
-
+const path = require("path")
 const corsOptions = {
   origin: ["http://localhost:3000", "http://localhost:4000"],
   credentials: true, // Allow only this origin to access the resources
@@ -24,25 +24,31 @@ app.use(cors(corsOptions))
 
 const meta = ["Navigation => /api/users?page=3","searchexample1 => /api/users/userID(check if ID exists in database)", "searchexample2 => /api/users?username=admin"]
 
-app.get("/session", ((req,res) => {
-  
-    try {
-      const response = fetch('http://localhost:4000/session', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      })
+app.get("/session", async (req, res) => {
+  try {
+    // Use await to wait for the fetch operation to complete
+    const response = await fetch('http://localhost:4000/session', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
 
-      const data = response.json()
-      console.log(data)
-      
-    }catch(error){
-       console.log(error)
-    }
-  
-}))
+    // Use await to wait for the JSON conversion to complete
+    const data = await response.json();
+    console.log(data);
+
+    // Send back the data to the client or handle it however you need
+    res.json(data);
+
+  } catch (error) {
+    console.error(error);
+    // Handle the error appropriately
+    res.status(500).send('An error occurred while fetching session data.');
+  }
+});
+
 app.get("/home", ((req,res) => {
     res.write("<a href='/api/users'>user API</a><br>")
     res.write("<a href='/api/recipes'>recipe API</a><br>")
@@ -52,6 +58,11 @@ app.get("/home", ((req,res) => {
     res.write("<a href='/api/comments'>comments API</a>")
     
     res.end()
+}))
+
+app.get("/images/:image", ((req,res) => {
+ 
+  res.sendFile(path.resolve(`${__dirname}/uploads/${req.params.image}`))
 }))
 
 app.get("/api/users", authCheck, ((req,res) => {
@@ -118,6 +129,18 @@ app.get("/api/users/:userID", ((req,res) => {
     }))
 }))
 
+app.get("/api/recipes/:recipeID", ((req,res) => {
+  console.log(req.params.recipeID)
+  const recipeId = req.params.recipeID
+  connection.query("Select * from recipes where id = ?",recipeId, ((err,results) => {
+      if(err){
+          console.log(err)
+      }
+
+      res.send(results)
+  }))
+}))
+
 app.get("/api/recipes", ((req,res) => {
     const page = parseInt(req.query.page, 10) || 1;
     const pageSize = parseInt(req.query.pageSize, 15) || 15;
@@ -159,7 +182,7 @@ app.get("/api/recipes/:recipeID", ((req,res) => {
             console.log(err)
         }
 
-        res.send([meta, results])
+        res.send(results)
     }))
 }))
 
