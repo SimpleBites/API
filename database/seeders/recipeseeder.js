@@ -12,7 +12,8 @@ const recipeseeder = () => {
             difficulty: "easy",
             preparation_time: "5 minutes",
             cooking_time: "30 minutes",
-            instructions: "step 1 step 2 step 3",
+            instructions: JSON.stringify(['step1', 'step2', 'step3']),
+            tools: JSON.stringify(["Pastry blender",  "potato masher", "Spatula"]),
             servings: 12,
             user_id: 2,
             category_id: 2,
@@ -27,7 +28,8 @@ const recipeseeder = () => {
             difficulty: "intermediate",
             preparation_time: "10 minutes",
             cooking_time: "40 minutes",
-            instructions: "step 1 step 2 step 3",
+            instructions: JSON.stringify(['step1', 'step2', 'step3']),
+            tools: JSON.stringify(["Pastry blender",  "potato masher", "Spatula"]),
             servings: 4,
             user_id: 2,
             category_id: 2,
@@ -42,7 +44,8 @@ const recipeseeder = () => {
             difficulty: "easy",
             preparation_time: "5 minutes",
             cooking_time: "30 minutes",
-            instructions: "step 1 step 2 step 3",
+            instructions: JSON.stringify(['step1', 'step2', 'step3']),
+            tools: JSON.stringify(["Pastry blender",  "potato masher", "Spatula"]),
             servings: 6,
             user_id: 2,
             category_id: 2,
@@ -57,7 +60,8 @@ const recipeseeder = () => {
             difficulty: "easy",
             preparation_time: "5 minutes",
             cooking_time: "30 minutes",
-            instructions: "step 1 step 2 step 3",
+            instructions: JSON.stringify(['step1', 'step2', 'step3']),
+            tools: JSON.stringify(["Skimmer and chef's knife", "Whisk and slotted spoon"]),
             servings: 4,
             user_id: 2,
             category_id: 2,
@@ -67,8 +71,8 @@ const recipeseeder = () => {
     ]
   
         recipes.forEach(recipe => {
-          connection.query('INSERT INTO recipes (title, description, image, average_score, difficulty, preparation_time, cooking_time, instructions, servings,  user_id, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
-            [recipe.title, recipe.description, recipe.image, recipe.average_score, recipe.difficulty, recipe.preparation_time, recipe.cooking_time, recipe.instructions, recipe.servings, recipe.user_id, recipe.category_id], 
+          connection.query('INSERT INTO recipes (title, description, image, average_score, difficulty, preparation_time, cooking_time, instructions, tools, servings,  user_id, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+            [recipe.title, recipe.description, recipe.image, recipe.average_score, recipe.difficulty, recipe.preparation_time, recipe.cooking_time, recipe.instructions, recipe.tools, recipe.servings, recipe.user_id, recipe.category_id], 
             (err, results) => {
               if(err) {
                 connection.rollback(() => {

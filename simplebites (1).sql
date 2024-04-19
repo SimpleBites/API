@@ -75,6 +75,7 @@ CREATE TABLE IF NOT EXISTS `recipes` (
   `preparation_time` varchar(45) DEFAULT NULL,
   `cooking_time` varchar(45) DEFAULT NULL,
   `instructions` varchar(1000) Default NULL,
+  `tools` varchar(1000) DEFAULT NULL,
   `servings` varchar(45) DEFAULT NULL,
   `user_id` int DEFAULT NULL,
   `category_id` int DEFAULT NULL,
@@ -173,27 +174,28 @@ INSERT INTO `users` (`id`, `username`, `user_image`, `email`, `password`, `creat
 --
 -- Beperkingen voor tabel `comments`
 --
+-- Add foreign key constraints to `comments`
 ALTER TABLE `comments`
-  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`),
-  ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Beperkingen voor tabel `recipes`
---
+-- Add foreign key constraints to `recipes`
 ALTER TABLE `recipes`
-  ADD CONSTRAINT `recipes_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `recipes_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `recipe_categories` (`id`);
+  ADD CONSTRAINT `recipes_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `recipes_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `recipe_categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
+-- Add foreign key constraint to `recipe_view_count`
 ALTER TABLE `recipe_view_count`
-  ADD CONSTRAINT `recipe_view_count_ibfk_1` FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`);
+  ADD CONSTRAINT `recipe_view_count_ibfk_1` FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Beperkingen voor tabel `recipe_ingredients`
---
+-- Add foreign key constraints to `recipe_ingredients`
 ALTER TABLE `recipe_ingredients`
-  ADD CONSTRAINT `recipe_ingredients_ibfk_1` FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`),
-  ADD CONSTRAINT `recipe_ingredients_ibfk_2` FOREIGN KEY (`ingredient_id`) REFERENCES `ingredients` (`id`);
+  ADD CONSTRAINT `recipe_ingredients_ibfk_1` FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `recipe_ingredients_ibfk_2` FOREIGN KEY (`ingredient_id`) REFERENCES `ingredients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- Committing the transaction (if the autocommit is disabled)
 COMMIT;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
